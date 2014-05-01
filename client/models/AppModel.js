@@ -21,6 +21,12 @@ var AppModel = Backbone.Model.extend({
       // TODO only adds unqiue songs. No multiples.
       this.get('songQueue').add(song);
     }, this);
+
+    params.library.on('ended', function(){
+      var song = this.get('songQueue').first();
+      this.get('songQueue').remove(this.get('songQueue').first());
+      this.set('currentSong', song);
+    }, this);
   }
 
 });
