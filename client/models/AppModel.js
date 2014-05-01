@@ -20,6 +20,11 @@ var AppModel = Backbone.Model.extend({
     params.library.on('enqueue', function(song){
       // TODO only adds unqiue songs. No multiples.
       this.get('songQueue').add(song);
+      var currentSong = this.get('currentSong');
+      var currentQueue = this.get('songQueue');
+      if (currentSong === undefined || (currentQueue.length === 1 && !currentSong.playing)){
+        this.playFirstSong();
+      }
     }, this);
 
     params.library.on('dequeue', function(song){
@@ -27,10 +32,14 @@ var AppModel = Backbone.Model.extend({
     }, this);
 
     params.library.on('ended', function(){
-      var song = this.get('songQueue').first();
-      this.get('songQueue').remove(this.get('songQueue').first());
-      this.set('currentSong', song);
+      this.playFirstSong();
     }, this);
+  },
+
+  playFirstSong : function(){
+    var song = this.get('songQueue').first();
+    this.get('songQueue').remove(this.get('songQueue').first());
+    this.set('currentSong', song);
   }
 
 });
