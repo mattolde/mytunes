@@ -5,12 +5,9 @@ var SongQueue = Songs.extend({
 
   },
 
+  //triggers playFirst which bubbles back up to AppModel
   playFirst: function(){
     this.trigger('playFirst', this);
-  },
-
-  // add: function(){
-  //   this.trigger('enqueue', this);
-  // }
+  }
 
 });

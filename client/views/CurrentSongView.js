@@ -11,8 +11,9 @@ var CurrentSongView = Backbone.View.extend({
     this.render();
   },
 
-  render: function(song){
+  render: function(){
     return this.$el.html(this.template(this.model.attributes));
   }
 
-})
+});
+//render info the current song being played

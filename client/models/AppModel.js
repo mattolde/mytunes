@@ -17,8 +17,8 @@ var AppModel = Backbone.Model.extend({
       this.set('currentSong', song);
     }, this);
 
+    //queue the song selected or play immediately if only song
     params.library.on('enqueue', function(song){
-      // TODO only adds unqiue songs. No multiples.
       this.get('songQueue').add(song);
       var currentSong = this.get('currentSong');
       var currentQueue = this.get('songQueue');
@@ -27,14 +27,17 @@ var AppModel = Backbone.Model.extend({
       }
     }, this);
 
+    //remove queued song from queue
     params.library.on('dequeue', function(song){
       this.get('songQueue').remove(song);
     }, this);
 
+    //autoplay next song when current song finishes
     params.library.on('ended', function(){
         this.get('songQueue').playFirst();
     }, this);
 
+    //play the first song from the queue
     this.get('songQueue').on('playFirst', function(){
       var song = this.get('songQueue').first();
       this.get('songQueue').remove(song);
@@ -43,3 +46,6 @@ var AppModel = Backbone.Model.extend({
   },
 
 });
+
+// AppModel is the central point where the rest of the models can be accessed from
+// - events triggered bubble up to this model and are delegated where needs be
